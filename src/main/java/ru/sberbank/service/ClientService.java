@@ -3,7 +3,6 @@ package ru.sberbank.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import ru.sberbank.entities.Card;
 import ru.sberbank.entities.Client;
 import ru.sberbank.repositories.ClientRepository;
 import ru.sberbank.repositories.CardRepository;
@@ -35,19 +34,17 @@ public class ClientService {
 
 
     public Client save(Client client){
-        Card card = (Card) cardRepository.findAll();
         Client cli = new Client();
-        cli.setId(client.getId());
+        cli.setClient_id(client.getClient_id());
         cli.setFirstName(client.getFirstName());
         cli.setLastName(client.getLastName());
         cli.setLogin(client.getLogin());
         cli.setPassword(cli.getPassword());
-        cli.setCards((List<Card>) card);
         return clientRepository.save(cli);
     }
 
     public void delete(Long id){
-        clientRepository.deleteById(id);
+      clientRepository.deleteById(id);
     }
 
 

@@ -5,12 +5,12 @@ import java.io.Serializable;
 import java.util.List;
 
 @Entity
-@Table (name = "client")
+@Table (name = "client", schema = "banktest")
 public class Client implements Serializable {
     @Id
-    @Column(name = "id")
+    @Column(name = "client_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long client_id;
 
     @Column(name = "firstName")
     private String firstName;
@@ -38,12 +38,22 @@ public class Client implements Serializable {
         this.cards = cards;
     }
 
-    public Long getId() {
-        return id;
+    public void addCard(Card card){
+        cards.add(card);
+        card.setClient(this);
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void removeCard(Card card){
+        cards.remove(card);
+        card.setClient(this);
+    }
+
+    public Long getClient_id() {
+        return client_id;
+    }
+
+    public void setClient_id(Long id) {
+        this.client_id = id;
     }
 
     public String getFirstName() {
@@ -81,7 +91,7 @@ public class Client implements Serializable {
     @Override
     public String toString() {
         return "Client{" +
-                "id=" + id +
+                "id=" + client_id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", login='" + login + '\'' +

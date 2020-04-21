@@ -3,7 +3,7 @@ package ru.sberbank.entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "cards")
+@Table(name = "cards" , schema = "banktest")
 public class Card {
     @Id
     @Column(name = "id")
@@ -18,7 +18,7 @@ public class Card {
 
 
     @ManyToOne
-    @JoinColumn(name = "card_id")
+    @JoinColumn(name = "client_id")
     private Client client;
 
     public Card() {

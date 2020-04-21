@@ -22,8 +22,8 @@ public class CardService {
     public Card save (Card card){
         Card currentCard = new Card();
         currentCard.setId(card.getId());
-        card.setNumber(card.getNumber());
-        card.setCash(card.getCash());
+        currentCard.setNumber(card.getNumber());
+        currentCard.setCash(card.getCash());
         return cardRepository.save(currentCard);
     }
 
@@ -32,7 +32,7 @@ public class CardService {
         return cardRepository.findById(id).get();
     }
 
-    public List<Card> getAllCardssList(){
+    public List<Card> getAllCardsList(){
         return cardRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
     }
 

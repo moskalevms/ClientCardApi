@@ -3,14 +3,16 @@ package ru.sberbank.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
+
 import ru.sberbank.entities.Card;
 import ru.sberbank.entities.Client;
 import ru.sberbank.repositories.CardRepository;
-import ru.sberbank.repositories.ClientRepository;
+
 
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Service
@@ -34,25 +36,26 @@ public class MoneyTransferService {
     }
 
 
-    /*
-    @Transactional
-    public List<Card> moneyTranferServise(Client client, Card card, int numOfTransfer) {
-        Client currentClient = clientService.getClientById(client.getId());
-        Card currentCard = cardService.getCardById(card.getId());
-        Card cardToTranfer = cardService.getCardById(Math.toIntExact(card.getClient().getId()));
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void addCard(Client client, Card cardFrom, Card cardTo){
         List<Card> cards = new ArrayList<>();
-        cards.add(currentCard);
-        cards.add(cardToTranfer);
-        currentClient.setCards(cards);
-
-        currentCard = cardRepository.setUpdateCardMinusById(numOfTransfer, currentCard.getId());
-        cardToTranfer =  cardRepository.setUpdateCardPlusById(numOfTransfer, cardToTranfer.getId());
-
-        cards.add(currentCard);
-        cards.add(cardToTranfer);
-        return cards;
+        client = clientService.getClientById(client.getClient_id());
+        cardFrom = cardService.getCardById(cardFrom.getId());
+        cardTo = cardService.getCardById(cardTo.getId());
+        cards.add(cardFrom);
+        cards.add(cardTo);
+        cardTo.setClient(client);
+        cardFrom.setClient(client);
     }
-     */
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void removeCard(Integer cardId, Long clientId, List<Card> cards){
+        Client client = clientService.getClientById(clientId);
+        Card card = cardService.getCardById(cardId);
+        cards.remove(card);
+        card.setClient(client);
+    }
+
 
     @Transactional(propagation = Propagation.REQUIRED)
     public MoneyTransferService transfer(Integer fromCardId, Integer toCardId, int sumOfTransfer ){
