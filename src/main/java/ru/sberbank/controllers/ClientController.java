@@ -11,7 +11,7 @@ import ru.sberbank.service.ClientService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/client")
+@RequestMapping("/cli")
 public class ClientController {
 
 
@@ -45,7 +45,7 @@ public class ClientController {
     }
 
 
-    @RequestMapping(value = "/clients/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> delete(@PathVariable(name = "id") Long id) {
          clientService.delete(id);
          return new ResponseEntity<>(HttpStatus.OK);

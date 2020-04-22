@@ -8,8 +8,6 @@ import ru.sberbank.entities.Card;
 import ru.sberbank.entities.Client;
 import ru.sberbank.service.MoneyTransferService;
 
-import javax.persistence.criteria.CriteriaBuilder;
-
 @RestController
 @RequestMapping("/account")
 public class TransferController {
@@ -20,6 +18,7 @@ public class TransferController {
     public void setMoneyTranferService(MoneyTransferService moneyTranferService){
         this.moneyTransferService = moneyTranferService;
     }
+
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public ResponseEntity<?> createAccount(@RequestBody Client client, Card cardFrom, Card cardTo){

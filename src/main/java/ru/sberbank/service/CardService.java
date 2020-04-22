@@ -1,7 +1,6 @@
 package ru.sberbank.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.sberbank.entities.Card;
 import ru.sberbank.repositories.CardRepository;
@@ -12,7 +11,6 @@ import java.util.List;
 public class CardService {
 
     private CardRepository cardRepository;
-
 
     @Autowired
     public void setCardRepository(CardRepository cardRepository){
@@ -29,11 +27,16 @@ public class CardService {
 
 
     public Card getCardById(Integer id){
-        return cardRepository.findById(id).get();
+       return cardRepository.findById(id).get();
     }
 
+    public List<Card> getAllByClientId(Long id){
+        return cardRepository.findAllByClientId(id);
+    }
+
+
     public List<Card> getAllCardsList(){
-        return cardRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
+        return cardRepository.findAll();
     }
 
 

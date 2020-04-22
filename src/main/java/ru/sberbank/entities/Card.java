@@ -1,9 +1,11 @@
 package ru.sberbank.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 @Entity
-@Table(name = "cards" , schema = "banktest")
+@Table(name = "cards" , schema = "banktest2")
 public class Card {
     @Id
     @Column(name = "id")
@@ -16,9 +18,9 @@ public class Card {
     @Column(name ="cash")
     private Integer cash;
 
-
     @ManyToOne
     @JoinColumn(name = "client_id")
+    @JsonBackReference
     private Client client;
 
     public Card() {

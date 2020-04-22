@@ -12,16 +12,10 @@ import java.util.List;
 @Service
 public class ClientService {
     private ClientRepository clientRepository;
-    private CardRepository cardRepository;
 
     @Autowired
     public void setClientRepository(ClientRepository clientRepository){
         this.clientRepository = clientRepository;
-    }
-
-    @Autowired
-    public void setCardRepository(CardRepository cardRepository){
-        this.cardRepository = cardRepository;
     }
 
     public Client getClientById(Long id){
@@ -29,15 +23,15 @@ public class ClientService {
     }
 
     public List<Client> getAllClientsList(){
-        return clientRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
+        return clientRepository.findAll();
     }
 
 
     public Client save(Client client){
         Client cli = new Client();
         cli.setClient_id(client.getClient_id());
-        cli.setFirstName(client.getFirstName());
-        cli.setLastName(client.getLastName());
+        cli.setFirstname(client.getFirstname());
+        cli.setLastname(client.getLastname());
         cli.setLogin(client.getLogin());
         cli.setPassword(cli.getPassword());
         return clientRepository.save(cli);

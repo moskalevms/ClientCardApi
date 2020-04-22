@@ -5,10 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.sberbank.entities.Card;
-import ru.sberbank.entities.Client;
 import ru.sberbank.service.CardService;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 @RestController
@@ -36,6 +34,20 @@ public class CardController {
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+
+
+    @RequestMapping(value = "/cardscli/{id}", method = RequestMethod.GET)
+    public ResponseEntity<List<Card>> showAllClientCards(@PathVariable(name = "id") Long id){
+        List<Card> cards = cardService.getAllByClientId(id);
+        return cards != null && !cards.isEmpty()
+                ? new ResponseEntity<>(cards, HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+
+
+
+
     @RequestMapping(value = "/cards/{id}", method = RequestMethod.GET)
     public ResponseEntity<Card> showCardById(@PathVariable(name = "id") Integer id){
         Card card = cardService.getCardById(id);
@@ -45,7 +57,7 @@ public class CardController {
     }
 
 
-    @RequestMapping(value = "/cards/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/del/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> delete(@PathVariable(name = "id") Integer id) {
         cardService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
