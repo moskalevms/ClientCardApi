@@ -23,6 +23,7 @@ CREATE TABLE cards
   FOREIGN KEY (client_id) REFERENCES client (client_id)
 );
 
-INSERT INTO cards (id, number, cash) VALUES (1, '5678654345678907', 1000);
-INSERT INTO cards (id, number, cash) VALUES (2, '1111222233334444', 2000);
+INSERT INTO cards (id, number, cash, client_id) VALUES (1, '5678654345678907', 1000, 1);
+INSERT INTO cards (id, number, cash, client_id) VALUES (2, '1111222233334444', 2000, 1);
+INSERT INTO cards (id, number, cash, client_id) VALUES (3, '6666777788889999', 10000, 2);
 

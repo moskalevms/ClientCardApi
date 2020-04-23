@@ -33,7 +33,6 @@ public class CardService {
                 }).orElseThrow(() -> new RuntimeException());
     }
 
-
     public Card getCardById(Long id){
        return cardRepository.findById(id).get();
     }
@@ -46,11 +45,9 @@ public class CardService {
         return cardRepository.findByClientId(id);
     }
 
-
     public List<Card> getAllCardsList(){
         return cardRepository.findAll();
     }
-
 
     public void delete(Long id){
        cardRepository.deleteById(id);

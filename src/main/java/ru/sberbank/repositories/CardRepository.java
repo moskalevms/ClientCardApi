@@ -10,7 +10,7 @@ import java.util.List;
 
 
 public interface CardRepository extends JpaRepository<Card, Long> {
-
+    //Попробовал написать кастомные запросы
     @Modifying
     @Query("update Card c set c.cash = c.cash - ?1 where c.id = ?2")
     Card setUpdateCardMinusById(int numOfTransaction, Long cardId);

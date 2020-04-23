@@ -25,6 +25,12 @@ public class TransferController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    @RequestMapping(value = "/upbalance", method = RequestMethod.PUT)
+    public ResponseEntity<?> addMoneyToCard(@RequestBody Long cardId, Integer sum){
+        moneyTransferService.upTheBalance(cardId, sum);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/transfer", method = RequestMethod.PUT)
     public ResponseEntity<?> makeTransfer(@RequestBody Card cardFrom, Card cardTo, Integer sum){
         moneyTransferService.transfer(cardFrom.getId(), cardTo.getId(), sum );

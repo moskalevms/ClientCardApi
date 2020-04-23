@@ -6,15 +6,13 @@ import org.springframework.transaction.annotation.Propagation;
 
 import ru.sberbank.entities.Card;
 import ru.sberbank.entities.Client;
+import ru.sberbank.exceptions.NotEnoughMoneyException;
 import ru.sberbank.repositories.CardRepository;
 
 
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 @Service
@@ -59,12 +57,21 @@ public class MoneyTransferService {
         card.setClient(client);
     }
 
+    public void upTheBalance(Long cardId, int sumOfUpdate ){
+        Optional<Card> card = cardRepository.findById(cardId);
+        card.map(c -> {c.setCash(c.getCash() + sumOfUpdate); return c;})
+                .map(cardRepository::save).orElseThrow(RuntimeException::new);
+        card.get().getCash();
+    }
 
-    //TODO проверка наличия достаточных средств для перевода
+
     @Transactional(propagation = Propagation.REQUIRED)
     public void transfer(Long fromCardId, Long toCardId, int sumOfTransfer ){
-
-           cardRepository.findById(fromCardId)
+            Optional<Card> cardFrom = cardRepository.findById(fromCardId);
+            if(cardFrom.get().getCash() < sumOfTransfer){
+                throw new NotEnoughMoneyException("На карте недостаточно средств для перевода");
+            }
+            cardFrom
                    .map(c -> {c.setCash(c.getCash() - sumOfTransfer); return c;})
                    .map(cardRepository::save).orElseThrow(RuntimeException::new);
 

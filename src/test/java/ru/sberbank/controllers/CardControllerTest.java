@@ -24,9 +24,6 @@ import java.util.List;
 public class CardControllerTest {
 
     @Autowired
-    private TestRestTemplate restTemplate;
-
-    @Autowired
     private CardService cardService;
 
     @Autowired
@@ -38,26 +35,11 @@ public class CardControllerTest {
     @Autowired
     ClientService clientService;
 
-    @LocalServerPort
-    int randomServerPort;
-/*
-
-    @Bean
-    public TestRestTemplate testRestTemplate(){
-         List<HttpMessageConverter<?>> messageConverters = new ArrayList<>();
-         MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-         converter.setSupportedMediaTypes(Collections.singletonList(MediaType.ALL));
-         messageConverters.add(converter);
-         restTemplate.getRestTemplate().setMessageConverters(messageConverters);
-         return restTemplate;
-    }
-*/
-
     @Test
     public void createCard() {
         Client testClient = clientService.getClientById(1L);
         Card testCard = new Card();
-        testCard.setNumber("cvbbc");
+        testCard.setNumber("99999");
         testCard.setCash(6000);
         testCard.setClient(testClient);
 
@@ -79,7 +61,7 @@ public class CardControllerTest {
 
     @Test
     public void showAllCardByClientId() {
-        ResponseEntity<List<Card>> response = cardController.showAllClientCards(2L);
+        ResponseEntity<List<Card>> response = cardController.showAllClientCards(1L);
         response.getStatusCode();
         Assert.isTrue(HttpStatus.OK == response.getStatusCode(), "http state not OK");
         List<Card> geoLocationInfo = response.getBody();
@@ -95,10 +77,9 @@ public class CardControllerTest {
         Assert.notNull(geoLocationInfo, "geoLocationInfo is null");
     }
 
-
     @Test
     public void showCardById() {
-        ResponseEntity<Card> response = cardController.showCardById(2L);
+        ResponseEntity<Card> response = cardController.showCardById(1L);
         response.getStatusCode();
         Assert.isTrue(HttpStatus.OK == response.getStatusCode(), "http state not OK");
         Card geoLocationInfo = response.getBody();
@@ -110,10 +91,10 @@ public class CardControllerTest {
     public void delete() {
         Client testClient = new Client();
         testClient.setClient_id(100L);
-        testClient.setLogin("fsff");
-        testClient.setPassword("fcvxv");
-        testClient.setFirstname("Ivan");
-        testClient.setLastname("dfgg");
+        testClient.setLogin("GodLike");
+        testClient.setPassword("789");
+        testClient.setFirstname("Test");
+        testClient.setLastname("Testov");
 
         testClient = clientService.save(testClient);
 
@@ -130,46 +111,4 @@ public class CardControllerTest {
         Assert.notNull(geoLocationInfo, "geoLocationInfo is null");
 
     }
-
-
-
-
-
-
-
-
-/*
-
-    @Test
-    public void showAllCards() throws URISyntaxException {
-        final String baseUrl = "http://localhost:" + randomServerPort + "app/card/cards";
-        URI uri = new URI(baseUrl);
-        List<Card> cards =  cardService.getAllCardsList();
-        HttpEntity<List<Card>> userHttpEntity = new HttpEntity<>(cards);
-        ResponseEntity<List<Card>> response = this.restTemplate.exchange(uri, HttpMethod.GET, userHttpEntity, new ParameterizedTypeReference<List<Card>>() {
-        });
-        Assert.isTrue(HttpStatus.OK == response.getStatusCode(), "http state not OK");
-        List<Card> geoLocationInfo = response.getBody();
-        Assert.notNull(geoLocationInfo, "geoLocationInfo is null");
-    }
-
-    @Test
-    public void showCardById() throws URISyntaxException {
-
-        final String baseUrl = "http://localhost:" + randomServerPort + "/cards/1";
-        URI uri = new URI(baseUrl);
-        Card card = cardService.getCardById(1);
-        Hibernate.initialize(card);
-        HttpEntity<Card> userHttpEntity = new HttpEntity<>(card);
-        ResponseEntity<Card> response = this.restTemplate.postForEntity(uri, userHttpEntity, Card.class);
-        Assert.isTrue(HttpStatus.OK == response.getStatusCode(), "http state not OK");
-        Card geoLocationInfo = response.getBody();
-        Assert.notNull(geoLocationInfo, "geoLocationInfo is null");
-    }
-
-    @Test
-    public void delete() {
-    }
-
- */
 }

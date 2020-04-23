@@ -26,7 +26,6 @@ public class Card implements Serializable {
     private Client client;
 
     public Card() {
-
     }
 
     public Long getId() {
@@ -52,7 +51,6 @@ public class Card implements Serializable {
     public void setCash(Integer cash) {
         this.cash = cash;
     }
-
 
     public Client getClient() {
         return client;

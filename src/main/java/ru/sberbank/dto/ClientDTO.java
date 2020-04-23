@@ -2,7 +2,7 @@ package ru.sberbank.dto;
 
 import java.io.Serializable;
 
-public class ClientDTO  {
+public class ClientDTO implements Serializable {
     private String name;
 
     public String getName() {
