@@ -1,12 +1,6 @@
 package ru.sberbank.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -32,8 +26,8 @@ public class Client implements Serializable {
     @Column(name = "password")
     private String password;
 
-
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    //TODO EAGER крайне нежелателен, но при LAZY не проходят тесты, посмотреть как исправить
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonManagedReference
     List<Card> cards = new ArrayList<>();
 
@@ -46,17 +40,6 @@ public class Client implements Serializable {
 
     public void setCards(List<Card> cards) {
         this.cards = cards;
-    }
-
-
-    public void addCard(Card card){
-        cards.add(card);
-        card.setClient(this);
-    }
-
-    public void removeCard(Card card){
-        cards.remove(card);
-        card.setClient(this);
     }
 
     public Long getClient_id() {

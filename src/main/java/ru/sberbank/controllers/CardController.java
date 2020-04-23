@@ -12,7 +12,7 @@ import ru.sberbank.service.ClientService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/card")
+@RequestMapping("/api")
 public class CardController {
 
     private CardService cardService;
@@ -22,15 +22,7 @@ public class CardController {
         this.cardService = cardService;
     }
 
-
-    private ClientService clientService;
-
-    @Autowired
-    public void setClientService(ClientService clientService){
-        this.clientService = clientService;
-    }
-
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    @RequestMapping(value = "/clients/{clientId}/cards", method = RequestMethod.POST)
     public ResponseEntity<?> createCard(@RequestBody Card card, Long clientId){
         cardService.save(card, clientId);
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -44,8 +36,6 @@ public class CardController {
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-
-
     @RequestMapping(value = "/cardscli/{id}", method = RequestMethod.GET)
     public ResponseEntity<List<Card>> showAllClientCards(@PathVariable(name = "id") Long id){
         List<Card> cards = cardService.getAllByClientId(id);
@@ -53,7 +43,6 @@ public class CardController {
                 ? new ResponseEntity<>(cards, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-
 
     @RequestMapping(value = "/card/{id}", method = RequestMethod.GET)
     public ResponseEntity<Card> showCardByClientId(@PathVariable(name = "id") Long id){
@@ -63,7 +52,6 @@ public class CardController {
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-
     @RequestMapping(value = "/cards/{id}", method = RequestMethod.GET)
     public ResponseEntity<Card> showCardById(@PathVariable(name = "id") Long id){
         Card card = cardService.getCardById(id);
@@ -71,7 +59,6 @@ public class CardController {
                 ? new ResponseEntity<>(card, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-
 
     @RequestMapping(value = "/del/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> delete(@PathVariable(name = "id") Long id) {

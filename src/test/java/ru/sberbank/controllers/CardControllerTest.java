@@ -1,17 +1,13 @@
 package ru.sberbank.controllers;
 
-import org.hibernate.Hibernate;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.context.annotation.Bean;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
 import ru.sberbank.entities.Card;
@@ -20,12 +16,9 @@ import ru.sberbank.repositories.ClientRepository;
 import ru.sberbank.service.CardService;
 import ru.sberbank.service.ClientService;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
+//TODO Изучить интеграционное тестирование с помощью моков, чтобы не трогать реальную БД
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class CardControllerTest {
@@ -47,7 +40,7 @@ public class CardControllerTest {
 
     @LocalServerPort
     int randomServerPort;
-
+/*
 
     @Bean
     public TestRestTemplate testRestTemplate(){
@@ -58,33 +51,15 @@ public class CardControllerTest {
          restTemplate.getRestTemplate().setMessageConverters(messageConverters);
          return restTemplate;
     }
-
-
-/*
-    @Bean
-    public RestTemplate restTemplate(){
-        final RestTemplate restTemplate = new RestTemplate();
-        List<HttpMessageConverter<?>> messageConverters = new ArrayList<>();
-        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-        converter.setSupportedMediaTypes(Collections.singletonList(MediaType.ALL));
-        messageConverters.add(converter);
-        restTemplate.setMessageConverters(messageConverters);
-        return restTemplate;
-    }
-
 */
 
     @Test
     public void createCard() {
-
-
         Client testClient = clientService.getClientById(1L);
         Card testCard = new Card();
         testCard.setNumber("cvbbc");
         testCard.setCash(6000);
         testCard.setClient(testClient);
-
-        testClient.addCard(testCard);
 
         ResponseEntity<Card> response = (ResponseEntity<Card>) cardController.createCard(testCard, testClient.getClient_id());
         response.getStatusCode();
@@ -92,8 +67,6 @@ public class CardControllerTest {
         HttpStatus geoLocationInfo = response.getStatusCode();
         Assert.notNull(geoLocationInfo, "geoLocationInfo is null");
     }
-
-
 
     @Test
     public void showAllCards() {
@@ -106,8 +79,7 @@ public class CardControllerTest {
 
     @Test
     public void showAllCardByClientId() {
-
-        ResponseEntity<List<Card>> response = cardController.showAllClientCards(1L);
+        ResponseEntity<List<Card>> response = cardController.showAllClientCards(2L);
         response.getStatusCode();
         Assert.isTrue(HttpStatus.OK == response.getStatusCode(), "http state not OK");
         List<Card> geoLocationInfo = response.getBody();
@@ -116,8 +88,7 @@ public class CardControllerTest {
 
     @Test
     public void showCardByClientId() {
-
-        ResponseEntity<Card> response = cardController.showCardByClientId(1L);
+        ResponseEntity<Card> response = cardController.showCardByClientId(2L);
         response.getStatusCode();
         Assert.isTrue(HttpStatus.OK == response.getStatusCode(), "http state not OK");
         Card geoLocationInfo = response.getBody();
@@ -135,8 +106,30 @@ public class CardControllerTest {
     }
 
 
+    @Test
+    public void delete() {
+        Client testClient = new Client();
+        testClient.setClient_id(100L);
+        testClient.setLogin("fsff");
+        testClient.setPassword("fcvxv");
+        testClient.setFirstname("Ivan");
+        testClient.setLastname("dfgg");
 
+        testClient = clientService.save(testClient);
 
+        Card testCard = new Card();
+        testCard.setNumber("699326943");
+        testCard.setCash(5000);
+
+        testCard = cardService.save(testCard, testClient.getClient_id());
+
+        ResponseEntity<Card> response = (ResponseEntity<Card>) cardController.delete(testCard.getId());
+        response.getStatusCode();
+        Assert.isTrue(HttpStatus.OK == response.getStatusCode(), "http state not OK");
+        HttpStatus geoLocationInfo = response.getStatusCode();
+        Assert.notNull(geoLocationInfo, "geoLocationInfo is null");
+
+    }
 
 
 

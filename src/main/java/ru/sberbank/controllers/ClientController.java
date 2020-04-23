@@ -10,7 +10,7 @@ import ru.sberbank.service.ClientService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/cli")
+@RequestMapping("/api")
 public class ClientController {
 
 
@@ -21,7 +21,7 @@ public class ClientController {
         this.clientService = clientService;
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    @RequestMapping(value = "/clients/create", method = RequestMethod.POST)
     public ResponseEntity<?> createClient(@RequestBody Client client){
         clientService.save(client);
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -44,7 +44,7 @@ public class ClientController {
     }
 
 
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/clients/delete/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> delete(@PathVariable(name = "id") Long id) {
          clientService.delete(id);
          return new ResponseEntity<>(HttpStatus.OK);

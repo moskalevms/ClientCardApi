@@ -3,7 +3,6 @@ package ru.sberbank.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.sberbank.entities.Card;
-import ru.sberbank.entities.Client;
 import ru.sberbank.repositories.CardRepository;
 import ru.sberbank.repositories.ClientRepository;
 

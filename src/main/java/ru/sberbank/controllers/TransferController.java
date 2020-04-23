@@ -19,7 +19,6 @@ public class TransferController {
         this.moneyTransferService = moneyTranferService;
     }
 
-
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public ResponseEntity<?> createAccount(@RequestBody Client client, Card cardFrom, Card cardTo){
         moneyTransferService.addCard(client, cardFrom, cardTo);

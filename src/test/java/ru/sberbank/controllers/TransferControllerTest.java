@@ -1,26 +1,22 @@
 package ru.sberbank.controllers;
 
 
-import org.junit.*;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.context.annotation.Bean;
-import org.springframework.http.*;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.util.Assert;
-import ru.sberbank.dto.ClientDTO;
-import ru.sberbank.service.CardService;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import org.springframework.util.Assert;
+import ru.sberbank.entities.Card;
+import ru.sberbank.entities.Client;
+import ru.sberbank.service.CardService;
+import ru.sberbank.service.ClientService;
+import ru.sberbank.service.MoneyTransferService;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -33,9 +29,18 @@ public class TransferControllerTest {
     @Autowired
     private CardService cardService;
 
+    @Autowired
+    private ClientService clientService;
+
+    @Autowired
+    private MoneyTransferService moneyTransferService;
+
+    @Autowired
+    private TransferController transferController;
+
     @LocalServerPort
     int randomServerPort;
-
+/*
 
     @Bean
     public TestRestTemplate testRestTemplate(){
@@ -60,7 +65,34 @@ public class TransferControllerTest {
         ClientDTO geoLocationInfo = response.getBody();
         Assert.notNull(geoLocationInfo, "geoLocationInfo is null");
     }
+*/
+
+    @Test
+    public void createAccount() {
+        Card cardFrom = cardService.getCardById(1L);
+        Card cardTo = cardService.getCardById(2L);
+        Client testClient = clientService.getClientById(1L);
+
+        ResponseEntity<?> response = transferController.createAccount(testClient, cardFrom, cardTo);
+        response.getStatusCode();
+        Assert.isTrue(HttpStatus.CREATED == response.getStatusCode(), "http state not OK");
+        HttpStatus geoLocationInfo = response.getStatusCode();
+        Assert.notNull(geoLocationInfo, "geoLocationInfo is null");
+    }
 
 
+
+
+
+    @Test
+    public void makeTransfer() {
+        Card cardFrom = cardService.getCardById(1L);
+        Card cardTo = cardService.getCardById(2L);
+        ResponseEntity<?> response = transferController.makeTransfer(cardFrom, cardTo, 100);
+        response.getStatusCode();
+        Assert.isTrue(HttpStatus.OK == response.getStatusCode(), "http state not OK");
+        HttpStatus geoLocationInfo = response.getStatusCode();
+        Assert.notNull(geoLocationInfo, "geoLocationInfo is null");
+    }
 
 }

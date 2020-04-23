@@ -12,7 +12,9 @@ import ru.sberbank.repositories.CardRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @Service
@@ -38,7 +40,7 @@ public class MoneyTransferService {
 
     @Transactional(propagation = Propagation.REQUIRED)
     public void addCard(Client client, Card cardFrom, Card cardTo){
-        List<Card> cards = new ArrayList<>();
+        Set<Card> cards = new LinkedHashSet<>();
         client = clientService.getClientById(client.getClient_id());
         cardFrom = cardService.getCardById(cardFrom.getId());
         cardTo = cardService.getCardById(cardTo.getId());
@@ -47,6 +49,7 @@ public class MoneyTransferService {
         cardTo.setClient(client);
         cardFrom.setClient(client);
     }
+
 
     @Transactional(propagation = Propagation.REQUIRED)
     public void removeCard(Long cardId, Long clientId, List<Card> cards){
@@ -57,8 +60,9 @@ public class MoneyTransferService {
     }
 
 
+    //TODO проверка наличия достаточных средств для перевода
     @Transactional(propagation = Propagation.REQUIRED)
-    public MoneyTransferService transfer(Long fromCardId, Long toCardId, int sumOfTransfer ){
+    public void transfer(Long fromCardId, Long toCardId, int sumOfTransfer ){
 
            cardRepository.findById(fromCardId)
                    .map(c -> {c.setCash(c.getCash() - sumOfTransfer); return c;})
@@ -67,7 +71,6 @@ public class MoneyTransferService {
            cardRepository.findById(toCardId)
                    .map(c -> {c.setCash(c.getCash() + sumOfTransfer); return c;})
                    .map(cardRepository::save).orElseThrow(RuntimeException::new);
-           return new MoneyTransferService();
     }
 
 }
