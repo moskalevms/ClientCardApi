@@ -1,4 +1,4 @@
-package ru.sberbank.entities;
+package ru.sberbank.dto;
 
 import java.io.Serializable;
 

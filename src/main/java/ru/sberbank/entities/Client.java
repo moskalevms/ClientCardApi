@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table (name = "client", schema = "banktest2")
+@Table (name = "client", schema = "banktest3")
 public class Client implements Serializable {
     @Id
     @Column(name = "client_id")
@@ -31,7 +33,7 @@ public class Client implements Serializable {
     private String password;
 
 
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JsonManagedReference
     List<Card> cards = new ArrayList<>();
 
@@ -45,6 +47,7 @@ public class Client implements Serializable {
     public void setCards(List<Card> cards) {
         this.cards = cards;
     }
+
 
     public void addCard(Card card){
         cards.add(card);

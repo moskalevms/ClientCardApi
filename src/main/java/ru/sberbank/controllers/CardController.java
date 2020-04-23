@@ -5,7 +5,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.sberbank.entities.Card;
+import ru.sberbank.entities.Client;
 import ru.sberbank.service.CardService;
+import ru.sberbank.service.ClientService;
 
 import java.util.List;
 
@@ -20,9 +22,17 @@ public class CardController {
         this.cardService = cardService;
     }
 
+
+    private ClientService clientService;
+
+    @Autowired
+    public void setClientService(ClientService clientService){
+        this.clientService = clientService;
+    }
+
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public ResponseEntity<?> createCard(@RequestBody Card card){
-        cardService.save(card);
+    public ResponseEntity<?> createCard(@RequestBody Card card, Long clientId){
+        cardService.save(card, clientId);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -45,11 +55,17 @@ public class CardController {
     }
 
 
-
+    @RequestMapping(value = "/card/{id}", method = RequestMethod.GET)
+    public ResponseEntity<Card> showCardByClientId(@PathVariable(name = "id") Long id){
+        Card card = cardService.getCardByClientId(id);
+        return card != null
+                ? new ResponseEntity<>(card, HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 
 
     @RequestMapping(value = "/cards/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Card> showCardById(@PathVariable(name = "id") Integer id){
+    public ResponseEntity<Card> showCardById(@PathVariable(name = "id") Long id){
         Card card = cardService.getCardById(id);
         return card != null
                 ? new ResponseEntity<>(card, HttpStatus.OK)
@@ -58,7 +74,7 @@ public class CardController {
 
 
     @RequestMapping(value = "/del/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> delete(@PathVariable(name = "id") Integer id) {
+    public ResponseEntity<?> delete(@PathVariable(name = "id") Long id) {
         cardService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

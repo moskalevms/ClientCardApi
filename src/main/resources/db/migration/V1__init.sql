@@ -15,7 +15,7 @@ INSERT INTO client (client_id, firstname, lastname, login, password) VALUES (2, 
 DROP TABLE IF EXISTS cards;
 CREATE TABLE cards
 (
-  id                    BIGINT,
+  id                    BIGSERIAL,
   number                VARCHAR(100) NOT NULL UNIQUE,
   cash                  BIGINT,
   client_id             BIGSERIAL NOT NULL,

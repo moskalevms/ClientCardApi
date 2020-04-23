@@ -26,14 +26,13 @@ public class ClientService {
         return clientRepository.findAll();
     }
 
-
     public Client save(Client client){
         Client cli = new Client();
         cli.setClient_id(client.getClient_id());
+        cli.setLogin(client.getLogin());
+        cli.setPassword(client.getPassword());
         cli.setFirstname(client.getFirstname());
         cli.setLastname(client.getLastname());
-        cli.setLogin(client.getLogin());
-        cli.setPassword(cli.getPassword());
         return clientRepository.save(cli);
     }
 

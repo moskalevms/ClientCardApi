@@ -3,14 +3,16 @@ package ru.sberbank.entities;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-@Table(name = "cards" , schema = "banktest2")
-public class Card {
+@Table(name = "cards" , schema = "banktest3")
+public class Card implements Serializable {
     @Id
     @Column(name = "id")
+    @Basic(optional = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name = "number")
     private String number;
@@ -27,11 +29,11 @@ public class Card {
 
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

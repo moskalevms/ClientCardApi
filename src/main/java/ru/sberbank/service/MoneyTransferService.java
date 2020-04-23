@@ -49,7 +49,7 @@ public class MoneyTransferService {
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public void removeCard(Integer cardId, Long clientId, List<Card> cards){
+    public void removeCard(Long cardId, Long clientId, List<Card> cards){
         Client client = clientService.getClientById(clientId);
         Card card = cardService.getCardById(cardId);
         cards.remove(card);
@@ -58,7 +58,7 @@ public class MoneyTransferService {
 
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public MoneyTransferService transfer(Integer fromCardId, Integer toCardId, int sumOfTransfer ){
+    public MoneyTransferService transfer(Long fromCardId, Long toCardId, int sumOfTransfer ){
 
            cardRepository.findById(fromCardId)
                    .map(c -> {c.setCash(c.getCash() - sumOfTransfer); return c;})

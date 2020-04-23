@@ -9,15 +9,15 @@ import ru.sberbank.entities.Card;
 import java.util.List;
 
 
-public interface CardRepository extends JpaRepository<Card, Integer> {
+public interface CardRepository extends JpaRepository<Card, Long> {
 
     @Modifying
     @Query("update Card c set c.cash = c.cash - ?1 where c.id = ?2")
-    Card setUpdateCardMinusById(int numOfTransaction, Integer cardId);
+    Card setUpdateCardMinusById(int numOfTransaction, Long cardId);
 
     @Modifying
     @Query("update Card c set c.cash = c.cash + ?1 where c.id = ?2")
-    Card setUpdateCardPlusById(int numOfTransaction, Integer cardId);
+    Card setUpdateCardPlusById(int numOfTransaction, Long cardId);
 
     @Query(value = "select c from Card c where c.client.client_id = :clientId")
     Card findByClientId(@Param("clientId") Long clientId);

@@ -16,7 +16,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
 import ru.sberbank.entities.Card;
 import ru.sberbank.entities.Client;
+import ru.sberbank.repositories.ClientRepository;
 import ru.sberbank.service.CardService;
+import ru.sberbank.service.ClientService;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -34,17 +36,14 @@ public class CardControllerTest {
     @Autowired
     private CardService cardService;
 
-    public void setCardService(CardService cardService) {
-        this.cardService = cardService;
-    }
-
     @Autowired
     private CardController cardController;
 
+    @Autowired
+    ClientRepository clientRepository;
 
-    public void setCardController(CardController cardController) {
-        this.cardController = cardController;
-    }
+    @Autowired
+    ClientService clientService;
 
     @LocalServerPort
     int randomServerPort;
@@ -76,8 +75,28 @@ public class CardControllerTest {
 */
 
     @Test
-    public void showAllClients() {
-        final String baseUrl = "http://localhost:" + 8080 + "/app/card/cards";
+    public void createCard() {
+
+
+        Client testClient = clientService.getClientById(1L);
+        Card testCard = new Card();
+        testCard.setNumber("cvbbc");
+        testCard.setCash(6000);
+        testCard.setClient(testClient);
+
+        testClient.addCard(testCard);
+
+        ResponseEntity<Card> response = (ResponseEntity<Card>) cardController.createCard(testCard, testClient.getClient_id());
+        response.getStatusCode();
+        Assert.isTrue(HttpStatus.CREATED == response.getStatusCode(), "http state not OK");
+        HttpStatus geoLocationInfo = response.getStatusCode();
+        Assert.notNull(geoLocationInfo, "geoLocationInfo is null");
+    }
+
+
+
+    @Test
+    public void showAllCards() {
         ResponseEntity<List<Card>> response = cardController.showAllCards();
         response.getStatusCode();
         Assert.isTrue(HttpStatus.OK == response.getStatusCode(), "http state not OK");
@@ -85,16 +104,37 @@ public class CardControllerTest {
         Assert.notNull(geoLocationInfo, "geoLocationInfo is null");
     }
 
+    @Test
+    public void showAllCardByClientId() {
+
+        ResponseEntity<List<Card>> response = cardController.showAllClientCards(1L);
+        response.getStatusCode();
+        Assert.isTrue(HttpStatus.OK == response.getStatusCode(), "http state not OK");
+        List<Card> geoLocationInfo = response.getBody();
+        Assert.notNull(geoLocationInfo, "geoLocationInfo is null");
+    }
 
     @Test
-    public void showClientById() {
-        final String baseUrl = "http://localhost:" + 8080 + "/app/cli/client/1";
-        ResponseEntity<Card> response = cardController.showCardById(1);
+    public void showCardByClientId() {
+
+        ResponseEntity<Card> response = cardController.showCardByClientId(1L);
         response.getStatusCode();
         Assert.isTrue(HttpStatus.OK == response.getStatusCode(), "http state not OK");
         Card geoLocationInfo = response.getBody();
         Assert.notNull(geoLocationInfo, "geoLocationInfo is null");
     }
+
+
+    @Test
+    public void showCardById() {
+        ResponseEntity<Card> response = cardController.showCardById(2L);
+        response.getStatusCode();
+        Assert.isTrue(HttpStatus.OK == response.getStatusCode(), "http state not OK");
+        Card geoLocationInfo = response.getBody();
+        Assert.notNull(geoLocationInfo, "geoLocationInfo is null");
+    }
+
+
 
 
 

@@ -3,7 +3,9 @@ package ru.sberbank.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.sberbank.entities.Card;
+import ru.sberbank.entities.Client;
 import ru.sberbank.repositories.CardRepository;
+import ru.sberbank.repositories.ClientRepository;
 
 import java.util.List;
 
@@ -17,21 +19,32 @@ public class CardService {
         this.cardRepository = cardRepository;
     }
 
-    public Card save (Card card){
-        Card currentCard = new Card();
-        currentCard.setId(card.getId());
-        currentCard.setNumber(card.getNumber());
-        currentCard.setCash(card.getCash());
-        return cardRepository.save(currentCard);
+    private ClientRepository clientRepository;
+
+    @Autowired
+    public void setClientRepository(ClientRepository clientRepository){
+        this.clientRepository = clientRepository;
+    }
+
+    public Card save (Card card, Long clientId){
+        return clientRepository.findById(clientId)
+                .map(client -> {
+                    card.setClient(client);
+                    return cardRepository.save(card);
+                }).orElseThrow(() -> new RuntimeException());
     }
 
 
-    public Card getCardById(Integer id){
+    public Card getCardById(Long id){
        return cardRepository.findById(id).get();
     }
 
     public List<Card> getAllByClientId(Long id){
         return cardRepository.findAllByClientId(id);
+    }
+
+    public Card getCardByClientId(Long id){
+        return cardRepository.findByClientId(id);
     }
 
 
@@ -40,7 +53,7 @@ public class CardService {
     }
 
 
-    public void delete(Integer id){
+    public void delete(Long id){
        cardRepository.deleteById(id);
     }
 

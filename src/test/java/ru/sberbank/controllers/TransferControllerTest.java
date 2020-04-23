@@ -13,7 +13,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
-import ru.sberbank.entities.ClientDTO;
+import ru.sberbank.dto.ClientDTO;
 import ru.sberbank.service.CardService;
 
 import java.net.URI;
