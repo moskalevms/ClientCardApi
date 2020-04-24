@@ -4,7 +4,7 @@
 - подключиться к БД (пароль - admin)
 - выполнить команду create schema banktest;
 3. Запустить приложение ClientCardApiSpringBootApplicationTests
-4. Запустить тесты, находящиеся в папке tests/java/ru.sberbank/controllers для проверки функционала.
+4. Запустить тесты, находящиеся в папке tests/java/ru.sberbank/controllers  и tests/java/ru.sberbank/rest для проверки функционала.
 
 =====================================================================================================================
 
