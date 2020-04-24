@@ -39,6 +39,7 @@ public class CardControllerTest {
     public void createCard() {
         Client testClient = clientService.getClientById(1L);
         Card testCard = new Card();
+        testCard.setId(100000L);
         testCard.setNumber("99999");
         testCard.setCash(6000);
         testCard.setClient(testClient);
@@ -90,7 +91,7 @@ public class CardControllerTest {
     @Test
     public void delete() {
         Client testClient = new Client();
-        testClient.setClient_id(100L);
+        testClient.setClient_id(700000000L);
         testClient.setLogin("GodLike");
         testClient.setPassword("789");
         testClient.setFirstname("Test");
@@ -99,6 +100,7 @@ public class CardControllerTest {
         testClient = clientService.save(testClient);
 
         Card testCard = new Card();
+        testCard.setId(100000L);
         testCard.setNumber("699326943");
         testCard.setCash(5000);
 

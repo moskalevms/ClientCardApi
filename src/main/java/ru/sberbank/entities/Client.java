@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table (name = "client", schema = "banktest3")
+@Table (name = "client", schema = "banktest")
 public class Client implements Serializable {
     @Id
     @Column(name = "client_id")
