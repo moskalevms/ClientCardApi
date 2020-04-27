@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table (name = "client", schema = "banktest")
+@Table (name = "client")
 public class Client implements Serializable {
     @Id
     @Column(name = "client_id")
@@ -26,7 +26,6 @@ public class Client implements Serializable {
     @Column(name = "password")
     private String password;
 
-    //TODO EAGER крайне нежелателен, но при LAZY не проходят тесты, посмотреть как исправить
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonManagedReference
     List<Card> cards = new ArrayList<>();

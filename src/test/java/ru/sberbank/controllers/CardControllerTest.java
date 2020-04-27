@@ -39,12 +39,11 @@ public class CardControllerTest {
     public void createCard() {
         Client testClient = clientService.getClientById(1L);
         Card testCard = new Card();
-        testCard.setId(100000L);
         testCard.setNumber("99999");
         testCard.setCash(6000);
         testCard.setClient(testClient);
 
-        ResponseEntity<Card> response = (ResponseEntity<Card>) cardController.createCard(testCard, testClient.getClient_id());
+        ResponseEntity<Card> response = (ResponseEntity<Card>) cardController.createCard(testClient.getClient_id(), testCard);
         response.getStatusCode();
         Assert.isTrue(HttpStatus.CREATED == response.getStatusCode(), "http state not OK");
         HttpStatus geoLocationInfo = response.getStatusCode();
@@ -104,7 +103,7 @@ public class CardControllerTest {
         testCard.setNumber("699326943");
         testCard.setCash(5000);
 
-        testCard = cardService.save(testCard, testClient.getClient_id());
+        testCard = cardService.save(testClient.getClient_id(), testCard);
 
         ResponseEntity<Card> response = (ResponseEntity<Card>) cardController.delete(testCard.getId());
         response.getStatusCode();

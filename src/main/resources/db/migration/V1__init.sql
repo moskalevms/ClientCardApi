@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS client;
 CREATE TABLE client
 (
-  client_id                    BIGSERIAL,
+  client_id             BIGSERIAL,
   firstname             VARCHAR(100) NOT NULL,
   lastname              VARCHAR(100) NOT NULL,
   login                 VARCHAR(100) NOT NULL,

@@ -25,7 +25,7 @@ public class CardService {
         this.clientRepository = clientRepository;
     }
 
-    public Card save (Card card, Long clientId){
+    public Card save (Long clientId, Card card){
         return clientRepository.findById(clientId)
                 .map(client -> {
                     card.setClient(client);
@@ -33,6 +33,7 @@ public class CardService {
                 }).orElseThrow(() -> new RuntimeException());
     }
 
+    //TODO не использовать get
     public Card getCardById(Long id){
        return cardRepository.findById(id).get();
     }

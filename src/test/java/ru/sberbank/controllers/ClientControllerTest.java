@@ -28,7 +28,6 @@ public class ClientControllerTest {
     @Test
     public void createClient() {
         Client testClient = new Client();
-        testClient.setClient_id(50L);
         testClient.setLogin("fsff");
         testClient.setPassword("fcvxv");
         testClient.setFirstname("Ivan");
@@ -62,7 +61,6 @@ public class ClientControllerTest {
     @Test
     public void delete() {
         Client testClient = new Client();
-        testClient.setClient_id(50L);
         testClient.setLogin("fsff");
         testClient.setPassword("fcvxv");
         testClient.setFirstname("Ivan");
