@@ -10,6 +10,7 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
+import ru.sberbank.dto.ClientDTO;
 import ru.sberbank.entities.Card;
 import ru.sberbank.entities.Client;
 import ru.sberbank.repositories.ClientRepository;
@@ -89,21 +90,23 @@ public class CardControllerTest {
 
     @Test
     public void delete() {
-        Client testClient = new Client();
-        testClient.setClient_id(700000000L);
+        ClientDTO testClient = new ClientDTO();
+        testClient.setId(2L);
         testClient.setLogin("GodLike");
         testClient.setPassword("789");
         testClient.setFirstname("Test");
         testClient.setLastname("Testov");
 
-        testClient = clientService.save(testClient);
+
 
         Card testCard = new Card();
-        testCard.setId(100000L);
+        testCard.setId(187999679L);
         testCard.setNumber("699326943");
         testCard.setCash(5000);
 
-        testCard = cardService.save(testClient.getClient_id(), testCard);
+
+
+        testCard = cardService.save(testClient.getId(), testCard);
 
         ResponseEntity<Card> response = (ResponseEntity<Card>) cardController.delete(testCard.getId());
         response.getStatusCode();

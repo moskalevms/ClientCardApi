@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.sberbank.dto.ClientDTO;
 import ru.sberbank.entities.Client;
 import ru.sberbank.exceptions.AlreadyHaveSuchEx;
 import ru.sberbank.exceptions.NotFoundException;
@@ -23,13 +24,14 @@ public class ClientController {
     private static final Logger log = LoggerFactory.getLogger(ClientController.class);
 
     @Autowired
-    public void setClientService(ClientService clientService){
+    public void ClientService(ClientService clientService){
         this.clientService = clientService;
     }
 
     @RequestMapping(value = "/clients/create", method = RequestMethod.POST)
-    public ResponseEntity<?> createClient(@RequestBody Client client){
+    public ResponseEntity<ClientDTO> createClient(@RequestBody ClientDTO clientDTO){
         try {
+            ClientDTO client = new ClientDTO();
             clientService.save(client);
         } catch (AlreadyHaveSuchEx ex) {
             log.info("Client already exists!");

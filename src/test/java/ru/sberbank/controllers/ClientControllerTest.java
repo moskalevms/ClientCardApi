@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
+import ru.sberbank.dto.ClientDTO;
 import ru.sberbank.entities.Client;
 import ru.sberbank.service.ClientService;
 
@@ -27,13 +28,13 @@ public class ClientControllerTest {
 
     @Test
     public void createClient() {
-        Client testClient = new Client();
-        testClient.setLogin("fsff");
-        testClient.setPassword("fcvxv");
-        testClient.setFirstname("Ivan");
-        testClient.setLastname("dfgg");
+        ClientDTO testClientDTO = new ClientDTO();
+        testClientDTO.setLogin("xbxcbb");
+        testClientDTO.setPassword("sdsf");
+        testClientDTO.setFirstname("xcvxcv");
+        testClientDTO.setLastname("xcvzvx");
 
-        ResponseEntity<Client> response = (ResponseEntity<Client>) clientController.createClient(testClient);
+        ResponseEntity<ClientDTO> response = (ResponseEntity<ClientDTO>) clientController.createClient(testClientDTO);
         response.getStatusCode();
         Assert.isTrue(HttpStatus.CREATED == response.getStatusCode(), "http state not OK");
         HttpStatus geoLocationInfo = response.getStatusCode();
@@ -60,15 +61,15 @@ public class ClientControllerTest {
 
     @Test
     public void delete() {
-        Client testClient = new Client();
+        ClientDTO testClient = new ClientDTO();
+        testClient.setId(6L);
         testClient.setLogin("fsff");
         testClient.setPassword("fcvxv");
         testClient.setFirstname("Ivan");
         testClient.setLastname("dfgg");
 
-        testClient = clientService.save(testClient);
 
-        ResponseEntity<Client> response = (ResponseEntity<Client>) clientController.delete(testClient.getClient_id());
+        ResponseEntity<ClientDTO> response = (ResponseEntity<ClientDTO>) clientController.delete(testClient.getId());
         response.getStatusCode();
         Assert.isTrue(HttpStatus.OK == response.getStatusCode(), "http state not OK");
         HttpStatus geoLocationInfo = response.getStatusCode();

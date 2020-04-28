@@ -1,11 +1,10 @@
 package ru.sberbank.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import ru.sberbank.dto.ClientDTO;
 import ru.sberbank.entities.Client;
 import ru.sberbank.repositories.ClientRepository;
-import ru.sberbank.repositories.CardRepository;
 
 import java.util.List;
 
@@ -14,7 +13,7 @@ public class ClientService {
     private ClientRepository clientRepository;
 
     @Autowired
-    public void setClientRepository(ClientRepository clientRepository){
+    public void ClientRepository(ClientRepository clientRepository){
         this.clientRepository = clientRepository;
     }
 
@@ -26,9 +25,9 @@ public class ClientService {
         return clientRepository.findAll();
     }
 
-    public Client save(Client client){
+    public Client save(ClientDTO client){
         Client cli = new Client();
-        cli.setClient_id(client.getClient_id());
+        cli.setClient_id(client.getId());
         cli.setLogin(client.getLogin());
         cli.setPassword(client.getPassword());
         cli.setFirstname(client.getFirstname());

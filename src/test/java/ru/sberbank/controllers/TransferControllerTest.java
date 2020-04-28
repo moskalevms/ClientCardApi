@@ -9,6 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.springframework.util.Assert;
+import ru.sberbank.dto.AccountDTO;
+import ru.sberbank.dto.AddMoneyToCardDTO;
+import ru.sberbank.dto.MoneyTransferDTO;
 import ru.sberbank.entities.Card;
 import ru.sberbank.entities.Client;
 import ru.sberbank.service.CardService;
@@ -29,11 +32,11 @@ public class TransferControllerTest {
 
     @Test
     public void createAccount() {
-        Card cardFrom = cardService.getCardById(1L);
-        Card cardTo = cardService.getCardById(2L);
-        Client testClient = clientService.getClientById(1L);
-
-        ResponseEntity<?> response = transferController.createAccount(testClient, cardFrom, cardTo);
+        AccountDTO accountDTO = new AccountDTO();
+        accountDTO.setCardFromId(1L);
+        accountDTO.setCardToId(2L);
+        accountDTO.setClientId(1L);
+        ResponseEntity<?> response = transferController.createAccount(accountDTO);
         response.getStatusCode();
         Assert.isTrue(HttpStatus.CREATED == response.getStatusCode(), "http state not OK");
         HttpStatus geoLocationInfo = response.getStatusCode();
@@ -42,8 +45,12 @@ public class TransferControllerTest {
 
     @Test
     public void addMoneyToCard() {
-        Card testCard= cardService.getCardById(1L);
-        ResponseEntity<?> response = transferController.addMoneyToCard(testCard.getId(), 100);
+        long cardId = 1L;
+        int sumOfUpping = 100;
+        AddMoneyToCardDTO addMoneyDTO = new AddMoneyToCardDTO();
+        addMoneyDTO.setCardId(cardId);
+        addMoneyDTO.setSumOfUpping(sumOfUpping);
+        ResponseEntity<?> response = transferController.addMoneyToCard(addMoneyDTO);
         response.getStatusCode();
         Assert.isTrue(HttpStatus.OK == response.getStatusCode(), "http state not OK");
         HttpStatus geoLocationInfo = response.getStatusCode();
@@ -52,9 +59,15 @@ public class TransferControllerTest {
 
     @Test
     public void makeTransfer() {
-        Card cardFrom = cardService.getCardById(1L);
-        Card cardTo = cardService.getCardById(2L);
-        ResponseEntity<?> response = transferController.makeTransfer(cardFrom, cardTo, 100);
+        long cardFrom = 1L;
+        long cardTo = 2L;
+        MoneyTransferDTO transferDTO = new MoneyTransferDTO();
+        transferDTO.setCardFromId(cardFrom);
+        transferDTO.setCardToId(cardTo);
+        transferDTO.setSum(100);
+
+
+        ResponseEntity<?> response = transferController.makeTransfer(transferDTO);
         response.getStatusCode();
         Assert.isTrue(HttpStatus.OK == response.getStatusCode(), "http state not OK");
         HttpStatus geoLocationInfo = response.getStatusCode();

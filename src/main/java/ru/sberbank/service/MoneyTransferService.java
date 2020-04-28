@@ -2,8 +2,11 @@ package ru.sberbank.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 
+import ru.sberbank.dto.CardDTO;
+import ru.sberbank.dto.ClientDTO;
 import ru.sberbank.entities.Card;
 import ru.sberbank.entities.Client;
 import ru.sberbank.exceptions.NotEnoughMoneyException;
@@ -23,25 +26,25 @@ public class MoneyTransferService {
     private CardService cardService;
 
     @Autowired
-    public void setCardRepository(CardRepository cardRepository){
+    public void CardRepository(CardRepository cardRepository){
         this.cardRepository = cardRepository;
     }
     @Autowired
-    public void setClientService(ClientService clientService) {
+    public void ClientService(ClientService clientService) {
         this.clientService = clientService;
     }
     @Autowired
-    public void setCardService(CardService cardService) {
+    public void CardService(CardService cardService) {
         this.cardService = cardService;
     }
 
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public void addCard(Client client, Card cardFrom, Card cardTo){
+    public void addCard(Long clientId, Long cardFromId, Long cardToId){
         Set<Card> cards = new LinkedHashSet<>();
-        client = clientService.getClientById(client.getClient_id());
-        cardFrom = cardService.getCardById(cardFrom.getId());
-        cardTo = cardService.getCardById(cardTo.getId());
+        Client client = clientService.getClientById(clientId);
+        Card cardFrom = cardService.getCardById(cardFromId);
+        Card cardTo = cardService.getCardById(cardToId);
         cards.add(cardFrom);
         cards.add(cardTo);
         cardTo.setClient(client);
@@ -65,7 +68,7 @@ public class MoneyTransferService {
     }
 
 
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
     public void transfer(Long fromCardId, Long toCardId, int sumOfTransfer ){
             Optional<Card> cardFrom = cardRepository.findById(fromCardId);
             if(cardFrom.get().getCash() < sumOfTransfer){
