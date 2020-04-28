@@ -34,7 +34,7 @@ public class ClientControllerTest {
         testClientDTO.setFirstname("xcvxcv");
         testClientDTO.setLastname("xcvzvx");
 
-        ResponseEntity<ClientDTO> response = (ResponseEntity<ClientDTO>) clientController.createClient(testClientDTO);
+        ResponseEntity<ClientDTO> response = clientController.createClient(testClientDTO);
         response.getStatusCode();
         Assert.isTrue(HttpStatus.CREATED == response.getStatusCode(), "http state not OK");
         HttpStatus geoLocationInfo = response.getStatusCode();

@@ -7,20 +7,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import ru.sberbank.controllers.TransferController;
 import ru.sberbank.dto.AccountDTO;
+import ru.sberbank.dto.AddMoneyToCardDTO;
 import ru.sberbank.dto.MoneyTransferDTO;
-import ru.sberbank.entities.Card;
-import ru.sberbank.entities.Client;
-import ru.sberbank.service.CardService;
-import ru.sberbank.service.ClientService;
-
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
@@ -40,6 +29,7 @@ public class TransferRestTest {
         accountDTO.setClientId(clientId);
         accountDTO.setCardFromId(fromCardId);
         accountDTO.setCardToId(toCardId);
+
         HttpEntity<AccountDTO> request = new HttpEntity<>(accountDTO);
 
         ResponseEntity<AccountDTO> response = template.postForEntity("http://localhost:8080/app/account/create", request, AccountDTO.class);
@@ -49,7 +39,15 @@ public class TransferRestTest {
 
     @Test
     public void mustAddMoney(){
-        ResponseEntity<Card> response = template.exchange("http://localhost:8080/app/account/upbalance/1/card/100", HttpMethod.PUT, null, Card.class);
+        long cardId = 1L;
+        int sumOfUpping = 100;
+        AddMoneyToCardDTO addMoneyDTO = new AddMoneyToCardDTO();
+        addMoneyDTO.setCardId(cardId);
+        addMoneyDTO.setSumOfUpping(sumOfUpping);
+
+        HttpEntity<AddMoneyToCardDTO> request = new HttpEntity<>(addMoneyDTO);
+
+        ResponseEntity<AddMoneyToCardDTO> response = template.exchange("http://localhost:8080/app/account/upbalance/1/card/100", HttpMethod.PUT, request, AddMoneyToCardDTO.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
@@ -62,10 +60,11 @@ public class TransferRestTest {
         transferDTO.setCardFromId(fromCardId);
         transferDTO.setCardToId(toCardId);
         transferDTO.setSum(100);
+
         HttpEntity<MoneyTransferDTO> request = new HttpEntity<>(transferDTO);
 
-       ResponseEntity<MoneyTransferDTO> response = template.exchange("http://localhost:8080/app/account//transfer", HttpMethod.PUT, request, MoneyTransferDTO.class);
-       assertEquals(HttpStatus.OK, response.getStatusCode());
+        ResponseEntity<MoneyTransferDTO> response = template.exchange("http://localhost:8080/app/account//transfer", HttpMethod.PUT, request, MoneyTransferDTO.class);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
 

@@ -18,6 +18,14 @@ public class CardDTO {
 
     private Client client;
 
+
+    public CardDTO(Long id, String number, Integer cash, Client client) {
+        this.id = id;
+        this.number = number;
+        this.cash = cash;
+        this.client = client;
+    }
+
     public Long getId() {
         return id;
     }

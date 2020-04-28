@@ -79,12 +79,9 @@ public class CardRestTest {
     }
 
     @Test
+    @Ignore
     public void shouldDeleteCard(){
         ResponseEntity<Card> response = template.exchange("http://localhost:8080/app/api//cards/del/1", HttpMethod.DELETE,null, Card.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
-
-
-
-
 }

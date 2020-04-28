@@ -1,8 +1,12 @@
 package ru.sberbank.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.sberbank.controllers.TransferController;
 import ru.sberbank.entities.Card;
+import ru.sberbank.exceptions.NotFoundException;
 import ru.sberbank.repositories.CardRepository;
 import ru.sberbank.repositories.ClientRepository;
 
@@ -21,21 +25,29 @@ public class CardService {
     private ClientRepository clientRepository;
 
     @Autowired
-    public void setClientRepository(ClientRepository clientRepository){
+    public void ClientRepository(ClientRepository clientRepository){
         this.clientRepository = clientRepository;
     }
+
+    private static final Logger log = LoggerFactory.getLogger(CardService.class);
 
     public Card save (Long clientId, Card card){
         return clientRepository.findById(clientId)
                 .map(client -> {
                     card.setClient(client);
                     return cardRepository.save(card);
-                }).orElseThrow(() -> new RuntimeException());
+                }).orElseThrow(() -> new NotFoundException("Client not found!"));
     }
 
-    //TODO не использовать get
     public Card getCardById(Long id){
-       return cardRepository.findById(id).get();
+        Card card = cardRepository.findById(id).orElse(null);
+        if(card.equals(null)){
+            log.warn("No card found by id: {}", id);
+            return null;
+        }
+        log.info("Card was found by id: {} ", card, id);
+        return card;
+
     }
 
     public List<Card> getAllByClientId(Long id){

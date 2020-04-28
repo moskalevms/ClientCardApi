@@ -1,6 +1,5 @@
 package ru.sberbank.controllers;
 
-import javafx.scene.chart.ScatterChart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.sberbank.dto.ClientDTO;
 import ru.sberbank.entities.Client;
-import ru.sberbank.exceptions.AlreadyHaveSuchEx;
+import ru.sberbank.exceptions.ClientAlreadyExistsExceprion;
 import ru.sberbank.exceptions.NotFoundException;
 import ru.sberbank.service.ClientService;
 
@@ -31,9 +30,8 @@ public class ClientController {
     @RequestMapping(value = "/clients/create", method = RequestMethod.POST)
     public ResponseEntity<ClientDTO> createClient(@RequestBody ClientDTO clientDTO){
         try {
-            ClientDTO client = new ClientDTO();
-            clientService.save(client);
-        } catch (AlreadyHaveSuchEx ex) {
+            clientService.save(clientDTO);
+        } catch (ClientAlreadyExistsExceprion ex) {
             log.info("Client already exists!");
             ex.printStackTrace();;
         } 

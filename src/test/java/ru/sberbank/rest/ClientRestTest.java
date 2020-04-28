@@ -1,5 +1,6 @@
 package ru.sberbank.rest;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,13 +34,16 @@ public class ClientRestTest {
 
     @Test
     public void createClient() {
-        ClientDTO testClient = new ClientDTO();
-        testClient.setLogin("U");
-        testClient.setPassword("1");
-        testClient.setFirstname("2");
-        testClient.setLastname("3");
 
-        ResponseEntity<ClientDTO> response = template.postForEntity("http://localhost:8080/app/api/clients/create", testClient, ClientDTO.class);
+        ClientDTO clientDTO = new ClientDTO();
+        clientDTO.setLogin("U");
+        clientDTO.setPassword("1");
+        clientDTO.setFirstname("2");
+        clientDTO.setLastname("3");
+
+        HttpEntity<ClientDTO> request = new HttpEntity<>(clientDTO);
+
+        ResponseEntity<Client> response = template.postForEntity("http://localhost:8080/app/api/clients/create", request, Client.class);
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
 
     }
@@ -63,18 +67,19 @@ public class ClientRestTest {
 
 
     @Test
+    @Ignore
     public void delete() {
-        ClientDTO testClient = new ClientDTO();
-        testClient.setLogin("R");
-        testClient.setPassword("1");
-        testClient.setFirstname("2");
-        testClient.setLastname("3");
+        ClientDTO testClientDTO = new ClientDTO();
+        testClientDTO.setId(10L);
+        testClientDTO.setLogin("R");
+        testClientDTO.setPassword("1");
+        testClientDTO.setFirstname("2");
+        testClientDTO.setLastname("3");
 
-        Client client = clientService.save(testClient);
+        Client client = clientService.save(testClientDTO);
 
         HttpEntity<Client> request = new HttpEntity<>(client);
-
-        ResponseEntity<Client> response = template.exchange("http://localhost:8080/app/api/clients/delete/3", HttpMethod.DELETE,request, Client.class);
+        ResponseEntity<Client> response = template.exchange("http://localhost:8080/app/api/clients/delete/10", HttpMethod.DELETE, request, Client.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 }

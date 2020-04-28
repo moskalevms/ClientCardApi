@@ -7,12 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.sberbank.entities.Card;
-import ru.sberbank.entities.Client;
-import ru.sberbank.exceptions.AlreadyHaveSuchEx;
+import ru.sberbank.exceptions.ClientAlreadyExistsExceprion;
 import ru.sberbank.service.CardService;
-import ru.sberbank.service.ClientService;
 
-import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -32,8 +29,8 @@ public class CardController {
     public ResponseEntity<?> createCard(@PathVariable Long clientId, @RequestBody Card card){
         try {
             cardService.save(clientId, card);
-        } catch (AlreadyHaveSuchEx ex){
-            log.info("Save not ok, Card already exist!" , ex);
+        } catch (ClientAlreadyExistsExceprion ex){
+            log.warn("Save not ok, Card already exist!" , ex);
         }
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

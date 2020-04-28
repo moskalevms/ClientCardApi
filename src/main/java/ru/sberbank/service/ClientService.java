@@ -25,14 +25,14 @@ public class ClientService {
         return clientRepository.findAll();
     }
 
-    public Client save(ClientDTO client){
-        Client cli = new Client();
-        cli.setClient_id(client.getId());
-        cli.setLogin(client.getLogin());
-        cli.setPassword(client.getPassword());
-        cli.setFirstname(client.getFirstname());
-        cli.setLastname(client.getLastname());
-        return clientRepository.save(cli);
+    public Client save(ClientDTO clientDTO){
+        Client newClient = new Client();
+        newClient.setClient_id(clientDTO.getId());
+        newClient.setLogin(clientDTO.getLogin());
+        newClient.setPassword(clientDTO.getPassword());
+        newClient.setFirstname(clientDTO.getFirstname());
+        newClient.setLastname(clientDTO.getLastname());
+        return clientRepository.save(newClient);
     }
 
     public void delete(Long id){
