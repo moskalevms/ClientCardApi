@@ -34,8 +34,7 @@ public class ClientController {
         } catch (ClientAlreadyExistsExceprion ex) {
             log.info("Client already exists!");
             ex.printStackTrace();;
-        } 
-     
+        }
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -57,14 +56,18 @@ public class ClientController {
     public ResponseEntity<Client> showClientById(@PathVariable(name = "id") Long id){
         Client client = null;
         try {
-        client = clientService.getClientById(id);
+            client = clientService.getClientById(id);
+            if(client.equals(null)){
+                throw new NotFoundException("Client not found");
+            }
+            return client != null
+                    ? new ResponseEntity<>(client, HttpStatus.OK)
+                    : new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (NotFoundException ex) {
             log.info("Clinet by such id not found");
             ex.printStackTrace();
+            throw new NotFoundException(ex.getMessage());
         }
-        return client != null
-                ? new ResponseEntity<>(client, HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 
