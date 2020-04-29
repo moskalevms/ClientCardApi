@@ -9,7 +9,7 @@ CREATE TABLE client
   PRIMARY KEY (client_id)
 );
 
-INSERT INTO client (client_id, firstname, lastname, login, password) VALUES (1, 'Ivan', 'Ivanov', 'admin', 'qwerty' );
+INSERT INTO client (client_id, firstname, lastname, login, password) VALUES (1, 'Ivan', 'Ivanov', 'admin', '$2b$10$ucU4bc/Fdiw8Y5LGXK/fmOk6vBlrveMd63K1UYtgI2bCUyNfppOg.' );
 INSERT INTO client (client_id, firstname, lastname, login, password) VALUES (2, 'Petr', 'Petrov', 'quest', '1234' );
 
 DROP TABLE IF EXISTS cards;
