@@ -21,23 +21,15 @@ import java.util.*;
 @Service
 public class MoneyTransferService {
     private CardRepository cardRepository;
-
     private ClientService clientService;
     private CardService cardService;
 
     @Autowired
-    public void CardRepository(CardRepository cardRepository){
+    public MoneyTransferService(CardRepository cardRepository, ClientService clientService, CardService cardService){
         this.cardRepository = cardRepository;
-    }
-    @Autowired
-    public void ClientService(ClientService clientService) {
         this.clientService = clientService;
-    }
-    @Autowired
-    public void CardService(CardService cardService) {
         this.cardService = cardService;
     }
-
 
     @Transactional(propagation = Propagation.REQUIRED)
     public void addCard(Long clientId, Long cardFromId, Long cardToId){

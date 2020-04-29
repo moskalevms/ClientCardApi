@@ -43,14 +43,16 @@ public class ClientRestTest {
 
         HttpEntity<ClientDTO> request = new HttpEntity<>(clientDTO);
 
-        ResponseEntity<Client> response = template.postForEntity("http://localhost:8080/app/api/clients/create", request, Client.class);
+        ResponseEntity<Client> response = template.withBasicAuth("admin", "qwerty")
+                .postForEntity("http://localhost:8080/app/api/clients/create", request, Client.class);
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
 
     }
 
     @Test
     public void showAllClients() {
-        ResponseEntity<List<Client>> response = template.exchange("http://localhost:8080/app/api/clients", HttpMethod.GET, null, new ParameterizedTypeReference<List<Client>>() {
+        ResponseEntity<List<Client>> response = template.withBasicAuth("admin", "qwerty")
+                .exchange("http://localhost:8080/app/api/clients", HttpMethod.GET, null, new ParameterizedTypeReference<List<Client>>() {
         });
         List<Client> clients = response.getBody();
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -59,7 +61,8 @@ public class ClientRestTest {
 
     @Test
     public void showClientById() {
-        ResponseEntity<Client> response = template.exchange("http://localhost:8080/app/api/clients/1", HttpMethod.GET, null, Client.class);
+        ResponseEntity<Client> response = template.withBasicAuth("admin", "qwerty")
+                .exchange("http://localhost:8080/app/api/clients/1", HttpMethod.GET, null, Client.class);
         Client testClient = response.getBody();
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(String.valueOf(testClient), "is null");
@@ -79,7 +82,8 @@ public class ClientRestTest {
         Client client = clientService.save(testClientDTO);
 
         HttpEntity<Client> request = new HttpEntity<>(client);
-        ResponseEntity<Client> response = template.exchange("http://localhost:8080/app/api/clients/delete/10", HttpMethod.DELETE, request, Client.class);
+        ResponseEntity<Client> response = template.withBasicAuth("admin", "qwerty")
+                .exchange("http://localhost:8080/app/api/clients/delete/10", HttpMethod.DELETE, request, Client.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 }

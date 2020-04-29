@@ -18,7 +18,7 @@ public class CardService {
     private CardRepository cardRepository;
 
     @Autowired
-    public void CardRepository(CardRepository cardRepository){
+    public CardService(CardRepository cardRepository){
         this.cardRepository = cardRepository;
     }
 

@@ -22,7 +22,7 @@ public class ClientService  {
     private ClientRepository clientRepository;
 
     @Autowired
-    public void ClientRepository(ClientRepository clientRepository){
+    public ClientService(ClientRepository clientRepository){
         this.clientRepository = clientRepository;
     }
 
