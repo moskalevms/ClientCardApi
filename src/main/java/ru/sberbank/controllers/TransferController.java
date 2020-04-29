@@ -24,7 +24,7 @@ public class TransferController {
     private static final Logger log = LoggerFactory.getLogger(TransferController.class);
 
     @Autowired
-    public void MoneyTranferService(MoneyTransferService moneyTransferService){
+    public TransferController(MoneyTransferService moneyTransferService){
         this.moneyTransferService = moneyTransferService;
     }
 

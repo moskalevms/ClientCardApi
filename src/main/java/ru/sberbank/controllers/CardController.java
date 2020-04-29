@@ -21,7 +21,7 @@ public class CardController {
     private static final Logger log = LoggerFactory.getLogger(CardController.class);
 
     @Autowired
-    public void CardService(CardService cardService){
+    public CardController(CardService cardService){
         this.cardService = cardService;
     }
 

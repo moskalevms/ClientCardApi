@@ -17,6 +17,7 @@ public class Card implements Serializable {
     @Column(name = "number")
     private String number;
 
+    //TODO исправить тип данных
     @Column(name ="cash")
     private Integer cash;
 

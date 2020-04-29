@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -29,6 +30,14 @@ public class Client implements Serializable {
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonManagedReference
     List<Card> cards = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable (name = "clients_roles",
+            joinColumns = @JoinColumn (name = "client_id"),
+            inverseJoinColumns = @JoinColumn (name = "role_id")
+    )
+    private Collection<Role> roles;
+
 
     public Client(){
     }
@@ -79,6 +88,14 @@ public class Client implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Collection<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 
     @Override

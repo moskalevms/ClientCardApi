@@ -10,6 +10,7 @@ import ru.sberbank.dto.ClientDTO;
 import ru.sberbank.entities.Client;
 import ru.sberbank.exceptions.ClientAlreadyExistsExceprion;
 import ru.sberbank.exceptions.NotFoundException;
+import ru.sberbank.repositories.RoleRepository;
 import ru.sberbank.service.ClientService;
 
 import java.util.List;
@@ -20,12 +21,21 @@ public class ClientController {
 
     private ClientService clientService;
 
+    private RoleRepository roleRepository;
+
     private static final Logger log = LoggerFactory.getLogger(ClientController.class);
 
     @Autowired
-    public void ClientService(ClientService clientService){
+    public void ClientContoller(ClientService clientService, RoleRepository roleRepository){
         this.clientService = clientService;
+        this.roleRepository = roleRepository;
     }
+
+    @RequestMapping(value = "/login" , method = RequestMethod.GET)
+    public String loginPage() {
+        return "login_page";
+    }
+
 
     @RequestMapping(value = "/clients/create", method = RequestMethod.POST)
     public ResponseEntity<ClientDTO> createClient(@RequestBody ClientDTO clientDTO){
