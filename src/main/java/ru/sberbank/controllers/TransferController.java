@@ -19,7 +19,7 @@ import java.util.HashMap;
 @RequestMapping("/account")
 public class TransferController {
 
-    private MoneyTransferService moneyTransferService;
+    private final MoneyTransferService moneyTransferService;
 
     private static final Logger log = LoggerFactory.getLogger(TransferController.class);
 

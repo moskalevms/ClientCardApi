@@ -16,7 +16,7 @@ import java.util.List;
 @RequestMapping("/api")
 public class CardController {
 
-    private CardService cardService;
+    private final CardService cardService;
 
     private static final Logger log = LoggerFactory.getLogger(CardController.class);
 

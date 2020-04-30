@@ -19,33 +19,33 @@ import java.util.List;
 @RequestMapping("/api")
 public class ClientController {
 
-    private ClientService clientService;
+    private final ClientService clientService;
 
-    private RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
 
     private static final Logger log = LoggerFactory.getLogger(ClientController.class);
 
+    private static final String USERNAME_ERR_MSG = "Пользователь с таким именем уже существует";
+
     @Autowired
-    public void ClientContoller(ClientService clientService, RoleRepository roleRepository){
+    public ClientController(ClientService clientService, RoleRepository roleRepository){
         this.clientService = clientService;
         this.roleRepository = roleRepository;
     }
 
-    @RequestMapping(value = "/login" , method = RequestMethod.GET)
+    @RequestMapping(value = "/login-page" , method = RequestMethod.GET)
     public String loginPage() {
-        return "login_page";
+        return "login-page";
     }
 
 
     @RequestMapping(value = "/clients/create", method = RequestMethod.POST)
     public ResponseEntity<ClientDTO> createClient(@RequestBody ClientDTO clientDTO){
-        try {
+            if(clientService.isExistClient(clientDTO)){
+                throw new ClientAlreadyExistsExceprion(USERNAME_ERR_MSG);
+            }
             clientService.save(clientDTO);
-        } catch (ClientAlreadyExistsExceprion ex) {
-            log.info("Client already exists!");
-            ex.printStackTrace();;
-        }
-        return new ResponseEntity<>(HttpStatus.CREATED);
+            return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/clients", method = RequestMethod.GET)
@@ -67,9 +67,6 @@ public class ClientController {
         Client client = null;
         try {
             client = clientService.getClientById(id);
-            if(client.equals(null)){
-                throw new NotFoundException("Client not found");
-            }
             return client != null
                     ? new ResponseEntity<>(client, HttpStatus.OK)
                     : new ResponseEntity<>(HttpStatus.NOT_FOUND);

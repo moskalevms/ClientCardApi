@@ -15,19 +15,16 @@ import java.util.List;
 @Service
 public class CardService {
 
-    private CardRepository cardRepository;
+    private final CardRepository cardRepository;
+
+    private final ClientRepository clientRepository;
 
     @Autowired
-    public CardService(CardRepository cardRepository){
+    public CardService(CardRepository cardRepository, ClientRepository clientRepository){
         this.cardRepository = cardRepository;
-    }
-
-    private ClientRepository clientRepository;
-
-    @Autowired
-    public void ClientRepository(ClientRepository clientRepository){
         this.clientRepository = clientRepository;
     }
+
 
     private static final Logger log = LoggerFactory.getLogger(CardService.class);
 
@@ -41,7 +38,7 @@ public class CardService {
 
     public Card getCardById(Long id){
         Card card = cardRepository.findById(id).orElse(null);
-        if(card.equals(null)){
+        if(card == null){
             log.warn("No card found by id: {}", id);
             return null;
         }

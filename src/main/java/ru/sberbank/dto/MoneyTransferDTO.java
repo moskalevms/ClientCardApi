@@ -1,7 +1,5 @@
 package ru.sberbank.dto;
 
-import ru.sberbank.entities.Card;
-
 public class MoneyTransferDTO {
     private Long cardFromId;
     private Long cardToId;

@@ -18,7 +18,7 @@ import ru.sberbank.service.ClientService;
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private AuthServise authServise;
+    private final AuthServise authServise;
 
    @Autowired
    public  SecurityConfig (AuthServise authServise){
@@ -29,11 +29,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/edit/**").hasRole("USER")
+                .antMatchers("/**").hasRole("USER")
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()
-                .loginPage("/login")
+                .loginPage("/api//login_page")
                 .loginProcessingUrl("/authenticateTheUser")
                 .permitAll()
                 .and()

@@ -20,9 +20,9 @@ import java.util.*;
 
 @Service
 public class MoneyTransferService {
-    private CardRepository cardRepository;
-    private ClientService clientService;
-    private CardService cardService;
+    private final CardRepository cardRepository;
+    private final ClientService clientService;
+    private final CardService cardService;
 
     @Autowired
     public MoneyTransferService(CardRepository cardRepository, ClientService clientService, CardService cardService){

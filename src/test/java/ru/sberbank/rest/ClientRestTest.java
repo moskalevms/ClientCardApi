@@ -37,7 +37,7 @@ public class ClientRestTest {
 
         ClientDTO clientDTO = new ClientDTO();
         clientDTO.setLogin("U");
-        clientDTO.setPassword("1");
+        clientDTO.setPassword("100");
         clientDTO.setFirstname("2");
         clientDTO.setLastname("3");
 

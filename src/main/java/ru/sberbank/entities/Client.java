@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static java.util.Collections.singletonList;
+
 @Entity
 @Table (name = "client")
 public class Client implements Serializable {
@@ -96,6 +98,10 @@ public class Client implements Serializable {
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;
+    }
+
+    public void setRole(Role role) {
+        setRoles(singletonList(role));
     }
 
     @Override
