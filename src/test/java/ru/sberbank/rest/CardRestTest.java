@@ -38,7 +38,7 @@ public class CardRestTest {
         testCard.setNumber("A");
         testCard.setCash(2000);
         ResponseEntity<Card> response = template.withBasicAuth("admin", "qwerty")
-                .postForEntity("http://localhost:8080/app/api/cli/1/cards", testCard, Card.class);
+                .postForEntity("http://localhost:8080/app/api/cards/1/cards", testCard, Card.class);
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
     }
 
@@ -56,7 +56,7 @@ public class CardRestTest {
     @Test
     public void showAllClientsCards() {
         ResponseEntity<List<Card>> response = template.withBasicAuth("admin", "qwerty")
-                .exchange("http://localhost:8080/app/api/cardscli/1", HttpMethod.GET,
+                .exchange("http://localhost:8080/app/api/cards/cards/1", HttpMethod.GET,
                 null, new ParameterizedTypeReference<List<Card>>() {
         });
         List<Card> cards = response.getBody();
@@ -67,7 +67,7 @@ public class CardRestTest {
     @Test
     public void showCardByClientId(){
         ResponseEntity<Card> response = template.withBasicAuth("admin", "qwerty")
-                .exchange("http://localhost:8080/app/api/card/2", HttpMethod.GET,
+                .exchange("http://localhost:8080/app/api/cards/card/2", HttpMethod.GET,
                 null, Card.class);
         Card testCard = response.getBody();
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -88,7 +88,7 @@ public class CardRestTest {
     @Ignore
     public void shouldDeleteCard(){
         ResponseEntity<Card> response = template.withBasicAuth("admin", "qwerty")
-                .exchange("http://localhost:8080/app/api//cards/del/1", HttpMethod.DELETE,null, Card.class);
+                .exchange("http://localhost:8080/app/api//cards/1", HttpMethod.DELETE,null, Card.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 }

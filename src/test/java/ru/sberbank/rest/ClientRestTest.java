@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ru.sberbank.dto.ClientDTO;
 import ru.sberbank.entities.Client;
-import ru.sberbank.repositories.ClientRepository;
 import ru.sberbank.service.ClientService;
 
 import java.util.List;
@@ -44,7 +43,7 @@ public class ClientRestTest {
         HttpEntity<ClientDTO> request = new HttpEntity<>(clientDTO);
 
         ResponseEntity<Client> response = template.withBasicAuth("admin", "qwerty")
-                .postForEntity("http://localhost:8080/app/api/clients/create", request, Client.class);
+                .postForEntity("http://localhost:8080/app/api/clients", request, Client.class);
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
 
     }
@@ -83,7 +82,7 @@ public class ClientRestTest {
 
         HttpEntity<Client> request = new HttpEntity<>(client);
         ResponseEntity<Client> response = template.withBasicAuth("admin", "qwerty")
-                .exchange("http://localhost:8080/app/api/clients/delete/10", HttpMethod.DELETE, request, Client.class);
+                .exchange("http://localhost:8080/app/api/clients/10", HttpMethod.DELETE, request, Client.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 }

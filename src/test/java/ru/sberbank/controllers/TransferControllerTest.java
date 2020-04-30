@@ -21,11 +21,6 @@ import ru.sberbank.service.ClientService;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class TransferControllerTest {
 
-    @Autowired
-    private CardService cardService;
-
-    @Autowired
-    private ClientService clientService;
 
     @Autowired
     private TransferController transferController;
@@ -65,7 +60,6 @@ public class TransferControllerTest {
         transferDTO.setCardFromId(cardFrom);
         transferDTO.setCardToId(cardTo);
         transferDTO.setSum(100);
-
 
         ResponseEntity<?> response = transferController.makeTransfer(transferDTO);
         response.getStatusCode();

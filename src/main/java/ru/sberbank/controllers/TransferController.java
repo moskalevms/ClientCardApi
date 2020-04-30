@@ -28,21 +28,21 @@ public class TransferController {
         this.moneyTransferService = moneyTransferService;
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    @RequestMapping( method = RequestMethod.POST)
     public ResponseEntity<?> createAccount(@RequestBody AccountDTO accountDTO){
         moneyTransferService.addCard(accountDTO.getClientId(), accountDTO.getCardFromId(), accountDTO.getCardToId());
         log.info("Card added!");
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/upbalance/{cardId}/card/{sum}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/{cardId}/card/{sum}", method = RequestMethod.PUT)
     public ResponseEntity<?> addMoneyToCard(@RequestBody AddMoneyToCardDTO addMoneyDTO){
         moneyTransferService.upTheBalance(addMoneyDTO.getCardId(), addMoneyDTO.getSumOfUpping());
         log.info("Money added!");
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/transfer", method = RequestMethod.PUT)
+    @RequestMapping( method = RequestMethod.PUT)
     public ResponseEntity<?> makeTransfer(@RequestBody MoneyTransferDTO transferDTO){
         moneyTransferService.transfer(transferDTO.getCardFromId(), transferDTO.getCardToId(), transferDTO.getSum());
         log.info("Transfer ok!");

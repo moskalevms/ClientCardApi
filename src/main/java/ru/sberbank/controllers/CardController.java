@@ -13,7 +13,7 @@ import ru.sberbank.service.CardService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/cards")
 public class CardController {
 
     private final CardService cardService;
@@ -25,7 +25,7 @@ public class CardController {
         this.cardService = cardService;
     }
 
-    @RequestMapping(value = "/cli/{clientId}/cards", method = RequestMethod.POST)
+    @RequestMapping(value = "/{clientId}/cards", method = RequestMethod.POST)
     public ResponseEntity<?> createCard(@PathVariable Long clientId, @RequestBody Card card){
         try {
             cardService.save(clientId, card);
@@ -35,7 +35,7 @@ public class CardController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/cards", method = RequestMethod.GET)
+    @RequestMapping( method = RequestMethod.GET)
     public ResponseEntity<List<Card>> showAllCards(){
         List<Card> cards = cardService.getAllCardsList();
         log.info("All cards showed");
@@ -44,7 +44,7 @@ public class CardController {
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @RequestMapping(value = "/cardscli/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/cards/{id}", method = RequestMethod.GET)
     public ResponseEntity<List<Card>> showAllClientCards(@PathVariable(name = "id") Long id){
         List<Card> cards = cardService.getAllByClientId(id);
         log.info("All cards by client");
@@ -62,7 +62,7 @@ public class CardController {
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @RequestMapping(value = "/cards/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<Card> showCardById(@PathVariable(name = "id") Long id){
         Card card = cardService.getCardById(id);
         log.info("Card by id");
@@ -71,7 +71,7 @@ public class CardController {
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @RequestMapping(value = "/cards/del/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> delete(@PathVariable(name = "id") Long id) {
         cardService.delete(id);
         log.info("Card deleted");

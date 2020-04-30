@@ -33,7 +33,7 @@ public class TransferRestTest {
         HttpEntity<AccountDTO> request = new HttpEntity<>(accountDTO);
 
         ResponseEntity<AccountDTO> response = template.withBasicAuth("admin", "qwerty")
-                .postForEntity("http://localhost:8080/app/account/create", request, AccountDTO.class);
+                .postForEntity("http://localhost:8080/app/account", request, AccountDTO.class);
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
     }
 
@@ -49,7 +49,7 @@ public class TransferRestTest {
         HttpEntity<AddMoneyToCardDTO> request = new HttpEntity<>(addMoneyDTO);
 
         ResponseEntity<AddMoneyToCardDTO> response = template.withBasicAuth("admin", "qwerty")
-                .exchange("http://localhost:8080/app/account/upbalance/1/card/100", HttpMethod.PUT, request, AddMoneyToCardDTO.class);
+                .exchange("http://localhost:8080/app/account/1/card/100", HttpMethod.PUT, request, AddMoneyToCardDTO.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
@@ -66,7 +66,7 @@ public class TransferRestTest {
         HttpEntity<MoneyTransferDTO> request = new HttpEntity<>(transferDTO);
 
         ResponseEntity<MoneyTransferDTO> response = template.withBasicAuth("admin", "qwerty")
-                .exchange("http://localhost:8080/app/account//transfer", HttpMethod.PUT, request, MoneyTransferDTO.class);
+                .exchange("http://localhost:8080/app/account/", HttpMethod.PUT, request, MoneyTransferDTO.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 

@@ -16,7 +16,7 @@ import ru.sberbank.service.ClientService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/clients")
 public class ClientController {
 
     private final ClientService clientService;
@@ -39,7 +39,7 @@ public class ClientController {
     }
 
 
-    @RequestMapping(value = "/clients/create", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<ClientDTO> createClient(@RequestBody ClientDTO clientDTO){
             if(clientService.isExistClient(clientDTO)){
                 throw new ClientAlreadyExistsExceprion(USERNAME_ERR_MSG);
@@ -48,7 +48,7 @@ public class ClientController {
             return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/clients", method = RequestMethod.GET)
+    @RequestMapping( method = RequestMethod.GET)
     public ResponseEntity<List<Client>> showAllClients(){
         List<Client> clients = null;
         try {
@@ -62,7 +62,7 @@ public class ClientController {
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @RequestMapping(value = "/clients/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<Client> showClientById(@PathVariable(name = "id") Long id){
         Client client = null;
         try {
@@ -78,7 +78,7 @@ public class ClientController {
     }
 
 
-    @RequestMapping(value = "/clients/delete/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> delete(@PathVariable(name = "id") Long id) {
          clientService.delete(id);
          log.info("Client deleted");
